@@ -2,9 +2,194 @@
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>Flavius Matis</title>
+	<title>easyModal.js - A minimal jQuery modal that works with your CSS.</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,800,600' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Allan:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="hl.css" />
 </head>
 <body>
-	<h1>Hello There!</h1>
+
+<a href="https://github.com/flaviusmatis/easyModal.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+
+<div class="content">
+
+	<p class="top-links">Check out my <a href="http://flaviusmatis.github.com">GitHub page</a> for other plugins.</p>
+
+	<h1>
+		<ul>
+			<li><a href="https://github.com/flaviusmatis/easyModal.js">Project page</a></li>
+			<li><a href="https://github.com/flaviusmatis/easyModal.js/issues">Issues</a></li>
+		</ul>
+		<strong>easyModal.js</strong>
+	</h1>
+
+	<p class="spacer"><strong>A minimal jQuery modal that works with your CSS.</strong></p>
+
+	<p class="spacer">easyModal.js is inspired by <a href="http://leanmodal.finelysliced.com.au/">leanModal.js</a>, a lightweight modal window that works with your current setup and requires no images, CSS or other dependencies.</p>
+	<p class="spacer">This plugin is written from scratch and implements some missing features in the orginal plugin like event triggering, close button, vertical centering, callbacks etc.</p>
+
+	<h2>Examples</h2>
+
+	<p class="spacer">I have included two basic examples, an <a id="open-modal1" href="#">alert panel</a> and a <a id="open-modal2" href="#">sign up form</a>.</p>
+
+	<h2>Download</h2>
+
+	<p class="spacer">Get the minimized version or the source code from <a href="https://github.com/flaviusmatis/easyModal.js">GitHub</a>.</p>
+
+	<h2>How To Use</h2>
+
+	<p class="spacer"><strong>Step 1:</strong> together with JQuery, include jquery.easyModal.js in your page:</p>
+
+	<div class="block">
+
+<pre name="code" class="html">&lt;script type="text/javascript" src="path_to/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="path_to/jquery.easyModal.js"&gt;&lt;/script&gt;</pre>
+
+	</div>
+
+	<p class="spacer"><strong>Step 2:</strong> call the function on your modal selector, as follows:</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(function() {
+    $(selector).easyModal();
+});</pre>
+			
+	</div>
+
+	<h2>Event triggering <span>(open or close modal)</span></h2>
+
+	<p class="spacer">Open your modal:</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(selector).trigger('openModal');</pre>
+
+	</div>
+
+	<p class="spacer">Close your modal:</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(selector).trigger('closeModal');</pre>
+
+	</div>
+
+	<h2>Options</h2>
+
+	<p class="spacer">You can override the defaults by passing your desired values to the function, like this:</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(function() {
+	$(selector).easyModal({
+		top: 100,
+		autoOpen: true,
+		overlayOpacity: 0.3,
+		overlayColor: "#333",
+		overlayClose: false,
+		closeOnEscape: false
+	});
+});</pre>
+
+	</div>
+
+	<p class="spacer">Available options:</p>
+
+	<p><strong>top</strong> - Sets the top offset of your modal window, accepts any integer value.</p>
+	<p class="spacer">default: "auto"</p>
+
+	<p><strong>autoOpen</strong> - If set true, the modal will be opened immediately after initialization.</p>
+	<p class="spacer">default: false</p>
+
+	<p><strong>overlayOpacity</strong> - Sets the overlay opacity.</p>
+	<p class="spacer">default: 0.5</p>
+
+	<p><strong>overlayColor</strong> - Sets the color of the overlay.</p>
+	<p class="spacer">default: "#000"</p>
+
+	<p><strong>overlayClose</strong> - If set false, the modal will not be closed when the overlay is clicked.</p>
+	<p class="spacer">default: true</p>
+
+	<p><strong>closeOnEscape</strong> - If set false, the modal will not be closed when the escape key is pressed.</p>
+	<p class="spacer">default: true</p>
+
+	<p><strong>closeButtonClass</strong> - The class of your close buttons included in the modal.</p>
+	<p class="spacer">default: ".close"</p>
+
+	<p><strong>onOpen</strong> - Callback function called when the modal is opened.</p>
+	<p class="spacer">argument: the modal window</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(function() {
+	$(selector).easyModal({
+		overlayClose: false,
+		onOpen: function(myModal){
+			$(myModal).append('Opened!');
+		}
+	});
+});</pre>
+
+	</div>
+
+	<p><strong>onClose</strong> - Callback function called when the modal is closed.</p>
+	<p class="spacer">argument: the modal window</p>
+
+	<div class="block">
+
+<pre name="code" class="js">$(function() {
+	$(selector).easyModal({
+		overlay : 0.4,
+		onClose: function(myModal){
+			$(myModal).append('Closed!');
+		}
+	});
+});</pre>
+
+	</div>
+
+	<h2>Support & Feedback</h2>
+
+	<p>For issues or suggestions please see <a href="https://github.com/flaviusmatis/easyModal.js">easyModal.js on Github</a>, or tweet <a href="http://twitter.com/#!/flaviusmatis">@flaviusmatis</a>.</p>
+
+	<p class="spacer">Thanks for your support!</p>
+
+</div>
+
+<div id="modal1">
+	<p>Holy guacamole! Best check yo self, you’re not looking too good.</p>
+</div>
+
+<div id="modal2">
+	<div class="header">
+		<h3>Create a new account</h3>
+	</div>
+	<form action="">
+		<div class="txt">
+			<label for="username">Username:</label>
+			<input type="text" name="" id="username">
+		</div>
+		<div class="txt">
+			<label for="email">Email address:</label>
+			<input type="text" name="" id="email">
+		</div>
+		<div class="txt">
+			<label for="password">Password:</label>
+			<input type="password" name="" id="password">
+		</div>
+		<div class="btn clearfix">
+			<a class="close" href="#">Sign Up</a>
+			<a class="close cancel" href="#">Cancel</a>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="hl-all.js"></script>
+<script type="text/javascript" src="jquery.easyModal.js"></script>
+<script type="text/javascript" src="script.js"></script>
+
 </body>
 </html>
