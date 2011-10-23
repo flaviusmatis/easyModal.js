@@ -1,8 +1,8 @@
 /**
 * easyModal.js v1.0.0
 * A minimal jQuery modal that works with your CSS.
-* Author: Flavius Matis - http://flaviusmatis.github.com
-* URL: http://github.com/easyModal.js
+* Author: Flavius Matis - http://flaviusmatis.github.com/
+* URL: https://github.com/flaviusmatis/easyModal.js
 */
 
 (function($){
