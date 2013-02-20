@@ -57,7 +57,7 @@
 				$modal.bind('openModal', function(e){
 					$(this).css('display', 'block');;
 					$overlay.fadeIn(200, function(){
-						if (o.onClose && typeof(o.onClose) === 'function') {
+					    if (o.onOpen && typeof (o.onOpen) === 'function') {
 							// onOpen callback receives as argument the modal window
 							o.onOpen($modal[0]);
 						}
