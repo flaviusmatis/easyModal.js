@@ -1,5 +1,5 @@
 /**
-* easyModal.js v1.0.0
+* easyModal.js v1.1.0
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
@@ -16,11 +16,12 @@
 				overlayOpacity: 0.5,
 				overlayColor: '#000',
 				overlayClose: true,
+				overlayParent: 'body',
 				closeOnEscape: true,
 				closeButtonClass: '.close',
 				onOpen: false,
 				onClose: false
-			}
+			};
 
 			options = $.extend(defaults, options);
 
@@ -40,7 +41,7 @@
 					'width': 100+ '%',
 					'background': o.overlayColor,
 					'opacity': o.overlayOpacity
-				}).appendTo('body');
+				}).appendTo(o.overlayParent);
 
 				var $modal = $(this);
 
@@ -54,17 +55,17 @@
 					'margin-top' : (parseInt(o.top) > -1 ? 0 : -($modal.outerHeight()/2)) + 'px'
 				});
 
-				$modal.bind('openModal', function(e){
-					$(this).css('display', 'block');;
+				$modal.bind('openModal', function(){
+					$(this).css('display', 'block');
 					$overlay.fadeIn(200, function(){
-						if (o.onClose && typeof(o.onClose) === 'function') {
+						if (o.onOpen && typeof (o.onOpen) === 'function') {
 							// onOpen callback receives as argument the modal window
 							o.onOpen($modal[0]);
 						}
 					});
 				});
 
-				$modal.bind('closeModal', function(e){
+				$modal.bind('closeModal', function(){
 					$(this).css('display', 'none');
 					$overlay.fadeOut(200, function(){
 						if (o.onClose && typeof(o.onClose) === 'function') {
