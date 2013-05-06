@@ -16,6 +16,7 @@
 				overlayOpacity: 0.5,
 				overlayColor: '#000',
 				overlayClose: true,
+			        overlayParent: 'body',
 				closeOnEscape: true,
 				closeButtonClass: '.close',
 				onOpen: false,
@@ -40,7 +41,7 @@
 					'width': 100+ '%',
 					'background': o.overlayColor,
 					'opacity': o.overlayOpacity
-				}).appendTo('body');
+				}).appendTo(o.overlayParent);
 
 				var $modal = $(this);
 
