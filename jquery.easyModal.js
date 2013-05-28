@@ -50,13 +50,15 @@
 					'position' : 'fixed',
 					'z-index': 2001,
 					'left' : 50 + '%',
-					'top' : parseInt(o.top) > -1 ? o.top + 'px' : 50 + '%',
-					'margin-left' : -($modal.outerWidth()/2) + 'px',
-					'margin-top' : (parseInt(o.top) > -1 ? 0 : -($modal.outerHeight()/2)) + 'px'
+					'top' : parseInt(o.top) > -1 ? o.top + 'px' : 50 + '%'
 				});
 
 				$modal.bind('openModal', function(){
-					$(this).css('display', 'block');
+					$(this).css({
+						'display' : 'block',
+						'margin-left' : -($modal.outerWidth()/2) + 'px',
+						'margin-top' : (parseInt(o.top) > -1 ? 0 : -($modal.outerHeight()/2)) + 'px'
+					});
 					$overlay.fadeIn(200, function(){
 						if (o.onOpen && typeof (o.onOpen) === 'function') {
 							// onOpen callback receives as argument the modal window
