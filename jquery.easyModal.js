@@ -91,7 +91,7 @@
 				});
 
 				// Close when button pressed
-				$modal.find(o.closeButtonClass).click(function(e) {
+				$modal.on('click', o.closeButtonClass, function(e) {
 					$modal.trigger('closeModal');
 					e.preventDefault();
 				});
