@@ -11,7 +11,7 @@
 (function ($) {
     "use strict";
     var methods = {
-        init : function (options) {
+        init: function (options) {
 
             var defaults = {
                 top: 'auto',
@@ -23,7 +23,17 @@
                 closeOnEscape: true,
                 closeButtonClass: '.close',
                 onOpen: false,
-                onClose: false
+                onClose: false,
+                zIndex: function () {
+                    return 1 + Math.max.apply(Math, $('*').map(function () {
+                        return $(this).css('z-index');
+                    }).filter(function () {
+                        return $.isNumeric(this);
+                    }).map(function () {
+                        return parseInt(this, 10);
+                    }));
+                },
+                updateZIndexOnOpen: true
             };
 
             options = $.extend(defaults, options);
@@ -37,32 +47,40 @@
                 $overlay.css({
                     'display': 'none',
                     'position': 'fixed',
-                    'z-index': 2000,
+                    // When updateZIndexOnOpen is set to true, we avoid computing the z-index on initialization,
+                    // because the value would be replaced when opening the modal.
+                    'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex()),
                     'top': 0,
                     'left': 0,
                     'height': 100 + '%',
                     'width': 100 + '%',
                     'background': o.overlayColor,
-                    'opacity': o.overlayOpacity
+                    'opacity': o.overlayOpacity,
+                    'overflow': 'auto'
                 }).appendTo(o.overlayParent);
-
-
 
                 $modal.css({
                     'display': 'none',
                     'position' : 'fixed',
-                    'z-index': 2001,
+                    // When updateZIndexOnOpen is set to true, we avoid computing the z-index on initialization,
+                    // because the value would be replaced when opening the modal.
+                    'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex() + 1),
                     'left' : 50 + '%',
                     'top' : parseInt(o.top, 10) > -1 ? o.top + 'px' : 50 + '%'
                 });
 
                 $modal.bind('openModal', function () {
-                    $(this).css({
+                    var overlayZ = o.updateZIndexOnOpen ? o.zIndex() : parseInt($overlay.css('z-index'), 10),
+                        modalZ = overlayZ + 1;
+
+                    $modal.css({
                         'display' : 'block',
                         'margin-left' : -($modal.outerWidth() / 2) + 'px',
-                        'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px'
+                        'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px',
+                        'z-index': modalZ
                     });
-                    $overlay.fadeIn(200, function () {
+
+                    $overlay.css({'z-index': overlayZ}).fadeIn(200, function () {
                         if (o.onOpen && typeof (o.onOpen) === 'function') {
                             // onOpen callback receives as argument the modal window
                             o.onOpen($modal[0]);
