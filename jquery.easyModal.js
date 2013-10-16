@@ -1,121 +1,146 @@
 /**
-* easyModal.js v1.1.0
+* easyModal.js v1.2.0
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
 */
 
-(function($){
+/*jslint browser: true*/
+/*global jQuery*/
 
-	var methods = {
-		init : function(options) {
+(function ($) {
+    "use strict";
+    var methods = {
+        init: function (options) {
 
-			var defaults = {
-				top: 'auto',
-				autoOpen: false,
-				overlayOpacity: 0.5,
-				overlayColor: '#000',
-				overlayClose: true,
-				overlayParent: 'body',
-				closeOnEscape: true,
-				closeButtonClass: '.close',
-				onOpen: false,
-				onClose: false
-			};
+            var defaults = {
+                top: 'auto',
+                autoOpen: false,
+                overlayOpacity: 0.5,
+                overlayColor: '#000',
+                overlayClose: true,
+                overlayParent: 'body',
+                closeOnEscape: true,
+                closeButtonClass: '.close',
+                onOpen: false,
+                onClose: false,
+                zIndex: function () {
+                    return 1 + Math.max.apply(Math, $('*').map(function () {
+                        return $(this).css('z-index');
+                    }).filter(function () {
+                        return $.isNumeric(this);
+                    }).map(function () {
+                        return parseInt(this, 10);
+                    }));
+                },
+                updateZIndexOnOpen: true
+            };
 
-			options = $.extend(defaults, options);
+            options = $.extend(defaults, options);
 
-			return this.each(function() {
+            return this.each(function () {
 
-				var o = options;
+                var o = options,
+                    $overlay = $('<div class="lean-overlay"></div>'),
+                    $modal = $(this);
 
-				var $overlay = $('<div class="lean-overlay"></div>');
+                $overlay.css({
+                    'display': 'none',
+                    'position': 'fixed',
+                    // When updateZIndexOnOpen is set to true, we avoid computing the z-index on initialization,
+                    // because the value would be replaced when opening the modal.
+                    'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex()),
+                    'top': 0,
+                    'left': 0,
+                    'height': 100 + '%',
+                    'width': 100 + '%',
+                    'background': o.overlayColor,
+                    'opacity': o.overlayOpacity,
+                    'overflow': 'auto'
+                }).appendTo(o.overlayParent);
 
-				$overlay.css({
-					'display': 'none',
-					'position': 'fixed',
-					'z-index': 2000,
-					'top': 0,
-					'left': 0,
-					'height': 100 + '%',
-					'width': 100+ '%',
-					'background': o.overlayColor,
-					'opacity': o.overlayOpacity
-				}).appendTo(o.overlayParent);
+                $modal.css({
+                    'display': 'none',
+                    'position' : 'fixed',
+                    // When updateZIndexOnOpen is set to true, we avoid computing the z-index on initialization,
+                    // because the value would be replaced when opening the modal.
+                    'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex() + 1),
+                    'left' : 50 + '%',
+                    'top' : parseInt(o.top, 10) > -1 ? o.top + 'px' : 50 + '%'
+                });
 
-				var $modal = $(this);
+                $modal.bind('openModal', function () {
+                    var overlayZ = o.updateZIndexOnOpen ? o.zIndex() : parseInt($overlay.css('z-index'), 10),
+                        modalZ = overlayZ + 1;
 
-				$modal.css({
-					'display': 'none',
-					'position' : 'fixed',
-					'z-index': 2001,
-					'left' : 50 + '%',
-					'top' : parseInt(o.top) > -1 ? o.top + 'px' : 50 + '%'
-				});
+                    $modal.css({
+                        'display' : 'block',
+                        'margin-left' : -($modal.outerWidth() / 2) + 'px',
+                        'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px',
+                        'z-index': modalZ
+                    });
 
-				$modal.bind('openModal', function(){
-					$(this).css({
-						'display' : 'block',
-						'margin-left' : -($modal.outerWidth()/2) + 'px',
-						'margin-top' : (parseInt(o.top) > -1 ? 0 : -($modal.outerHeight()/2)) + 'px'
-					});
-					$overlay.fadeIn(200, function(){
-						if (o.onOpen && typeof (o.onOpen) === 'function') {
-							// onOpen callback receives as argument the modal window
-							o.onOpen($modal[0]);
-						}
-					});
-				});
+                    $overlay.css({'z-index': overlayZ}).fadeIn(200, function () {
+                        if (o.onOpen && typeof (o.onOpen) === 'function') {
+                            // onOpen callback receives as argument the modal window
+                            o.onOpen($modal[0]);
+                        }
+                    });
+                });
 
-				$modal.bind('closeModal', function(){
-					$(this).css('display', 'none');
-					$overlay.fadeOut(200, function(){
-						if (o.onClose && typeof(o.onClose) === 'function') {
-							// onClose callback receives as argument the modal window
-							o.onClose($modal[0]);
-						}
-					});
-				});
+                $modal.bind('closeModal', function () {
+                    $(this).css('display', 'none');
+                    $overlay.fadeOut(200, function () {
+                        if (o.onClose && typeof (o.onClose) === 'function') {
+                            // onClose callback receives as argument the modal window
+                            o.onClose($modal[0]);
+                        }
+                    });
+                });
 
-				// Close on overlay click
-				$overlay.click(function() {
-					if (o.overlayClose)
-						$modal.trigger('closeModal');
-				});
+                // Close on overlay click
+                $overlay.click(function () {
+                    if (o.overlayClose) {
+                        $modal.trigger('closeModal');
+                    }
+                });
 
-				$(document).keydown(function(e) {
-					// ESCAPE key pressed
-					if (o.closeOnEscape && e.keyCode == 27) {
-						$modal.trigger('closeModal');
-					}
-				});
+                $(document).keydown(function (e) {
+                    // ESCAPE key pressed
+                    if (o.closeOnEscape && e.keyCode === 27) {
+                        $modal.trigger('closeModal');
+                    }
+                });
 
-				// Close when button pressed
-				$modal.on('click', o.closeButtonClass, function(e) {
-					$modal.trigger('closeModal');
-					e.preventDefault();
-				});
+                // Close when button pressed
+                $modal.on('click', o.closeButtonClass, function (e) {
+                    $modal.trigger('closeModal');
+                    e.preventDefault();
+                });
 
-				// Automatically open modal if option set
-				if (o.autoOpen)
-					$modal.trigger('openModal');
+                // Automatically open modal if option set
+                if (o.autoOpen) {
+                    $modal.trigger('openModal');
+                }
 
-			});
+            });
 
-		}
-	};
+        }
+    };
 
-	$.fn.easyModal = function(method) {
+    $.fn.easyModal = function (method) {
 
-		// Method calling logic
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === 'object' || ! method) {
-			return methods.init.apply(this, arguments);
-		} else {
-			$.error('Method ' + method + ' does not exist on jQuery.easyModal');
-		}
+        // Method calling logic
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        }
 
-	};
+        if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        }
 
-})(jQuery);
+        $.error('Method ' + method + ' does not exist on jQuery.easyModal');
+
+    };
+
+}(jQuery));
