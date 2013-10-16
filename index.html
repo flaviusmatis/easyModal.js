@@ -124,6 +124,8 @@
 	<p><strong>onOpen</strong> - Callback function called when the modal is opened.</p>
 	<p class="spacer">argument: the modal window</p>
 
+
+
 	<div class="block">
 
 <pre name="code" class="js">$(function() {
@@ -153,6 +155,12 @@
 
 	</div>
 
+	<p><strong>zIndex</strong> - Function called for calculating the modal z-index.</p>
+	<p class="spacer">default: The default function returns the highest z-index for any element in the page + 1.</p>
+	
+	<p><strong>updateZIndexOnOpen</strong> - Wheter the z-index should be calculted, using the zIndex function, before the modal opens. When set to false, the z-index is calculated and set once on initialization.</p>
+	<p class="spacer">default: true</p>
+	
 	<h2>Support & Feedback</h2>
 
 	<p>For issues or suggestions please see <a href="https://github.com/flaviusmatis/easyModal.js">easyModal.js on Github</a>, or tweet <a href="http://twitter.com/#!/flaviusmatis">@flaviusmatis</a>.</p>
