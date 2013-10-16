@@ -159,29 +159,25 @@ p.top-links {
 }
 
 #modal1 {
-	background: -moz-linear-gradient(center top , #EE5F5B, #C43C35);
+	background: #FF2D55;
 	text-align: center;
-	width:600px;
-	border-radius: 5px;
+	width: 600px;
+	padding: 5px 0;
 	color: #FFF;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-	font-weight: 700;
-	border: 1px solid #C43C35;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+	font-weight: 600;
 }
 
 #modal2 {
 	width:400px;
 	background: #FFF;
-	border-radius: 5px;
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 #modal2 .header {
 	background: #DDD;
 	border-bottom: 1px solid #CCCCCC;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
 	padding: 18px 18px 14px;
 }
 
@@ -202,41 +198,38 @@ p.top-links {
 #modal2 .txt input {
 	width: 220px;
 	height: 16px;
-	padding: 3px;
-	border: 1px solid;
-	border-color: #8C8C8C #CCCCCC #CCCCCC #8C8C8C;
+	padding: 5px;
+	border: 1px solid #CCC;
 }
 
 #modal2 .txt label {
 	float: left;
-	width: 130px;
-	line-height: 24px;
+	width: 120px;
+	line-height: 28px;
+	font-size: 13px;
 }
 
 #modal2 .btn {
-	padding: 10px 20px 10px 150px;
+	padding: 10px 20px 10px 140px;
 }
 
 #modal2 .btn a {
 	float: left;
 	padding: 0 20px;
-	line-height: 26px;
-	border: 1px solid;
-	border-color: #00729F;
-	border-radius: 3px;
-	background: -moz-linear-gradient(center top , #049CDB, #0064CD);
+	line-height: 28px;
+	background: #049CDB;
 	text-align: center;
 	font-family: sans-serif;
 	font-size: 14px;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.25);
 	color: #FFF;
 	margin: 0 10px 0 0;
+	border: none;
 }
 
 #modal2 .btn a.cancel {
-	border-color: #AAAAAA #AAAAAA #888888;
-	background: -moz-linear-gradient(center top , #EEEEEE, #CCCCCC);
+	background: #DDDDDD;
 	box-shadow: none;
 	color: #333;
-	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+	text-shadow: 0 1px 0 rgba(255,255,255,0.25);
 }
