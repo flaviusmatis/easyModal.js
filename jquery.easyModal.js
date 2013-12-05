@@ -25,13 +25,13 @@
                 onOpen: false,
                 onClose: false,
                 zIndex: function () {
-                    return 1 + Math.max.apply(Math, $('*').map(function () {
+                    return 1 + Math.max.apply(Math, $.makeArray($('*').map(function () {
                         return $(this).css('z-index');
                     }).filter(function () {
                         return $.isNumeric(this);
                     }).map(function () {
                         return parseInt(this, 10);
-                    }));
+                    })));
                 },
                 updateZIndexOnOpen: true
             };
