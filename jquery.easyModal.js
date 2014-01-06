@@ -40,7 +40,7 @@
 
             return this.each(function () {
 
-                $(o.overlayParent).find('.lean-overlay').remove();
+                $(options.overlayParent).find('.lean-overlay').remove();
 
                 var o = options,
                     $overlay = $('<div class="lean-overlay"></div>'),
