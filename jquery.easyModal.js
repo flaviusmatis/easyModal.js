@@ -1,5 +1,5 @@
 /**
-* easyModal.js v1.3.0
+* easyModal.js v1.3.1
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
@@ -25,13 +25,15 @@
                 onOpen: false,
                 onClose: false,
                 zIndex: function () {
-                    return 1 + Math.max.apply(Math, $.makeArray($('*').map(function () {
+                    return (function (value) {
+                        return value === -Infinity ? 0 : value + 1;
+                    }(Math.max.apply(Math, $.makeArray($('*').map(function () {
                         return $(this).css('z-index');
                     }).filter(function () {
                         return $.isNumeric(this);
                     }).map(function () {
                         return parseInt(this, 10);
-                    })));
+                    })))));
                 },
                 updateZIndexOnOpen: true
             };
