@@ -1,5 +1,5 @@
 /**
-* easyModal.js v1.3.0
+* easyModal.js v1.3.1
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
@@ -25,13 +25,15 @@
                 onOpen: false,
                 onClose: false,
                 zIndex: function () {
-                    return 1 + Math.max.apply(Math, $.makeArray($('*').map(function () {
+                    return (function (value) {
+                        return value === -Infinity ? 0 : value + 1;
+                    }(Math.max.apply(Math, $.makeArray($('*').map(function () {
                         return $(this).css('z-index');
                     }).filter(function () {
                         return $.isNumeric(this);
                     }).map(function () {
                         return parseInt(this, 10);
-                    })));
+                    })))));
                 },
                 updateZIndexOnOpen: true
             };
@@ -39,8 +41,6 @@
             options = $.extend(defaults, options);
 
             return this.each(function () {
-
-                $(options.overlayParent).find('.lean-overlay').remove();
 
                 var o = options,
                     $overlay = $('<div class="lean-overlay"></div>'),
@@ -54,8 +54,8 @@
                     'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex()),
                     'top': 0,
                     'left': 0,
-	                'height': '100%',
-	                'width': '100%',
+                    'height': '100%',
+                    'width': '100%',
                     'background': o.overlayColor,
                     'opacity': o.overlayOpacity,
                     'overflow': 'auto'
@@ -75,7 +75,7 @@
                     var overlayZ = o.updateZIndexOnOpen ? o.zIndex() : parseInt($overlay.css('z-index'), 10),
                         modalZ = overlayZ + 1;
 
-	                $modal.css({
+                    $modal.css({
                         'display' : 'block',
                         'margin-left' : -($modal.outerWidth() / 2) + 'px',
                         'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px',
@@ -84,19 +84,19 @@
 
                     $overlay.css({'z-index': overlayZ, 'display': 'block'});
 
-	                if (o.onOpen && typeof (o.onOpen) === 'function') {
-		                // onOpen callback receives as argument the modal window
-		                o.onOpen($modal[0]);
-	                }
+                    if (o.onOpen && typeof o.onOpen === 'function') {
+                        // onOpen callback receives as argument the modal window
+                        o.onOpen($modal[0]);
+                    }
                 });
 
                 $modal.bind('closeModal', function () {
-	                $modal.css('display', 'none');
-	                $overlay.css('display', 'none');
-	                if (o.onClose && typeof(o.onClose) === 'function') {
-		                // onClose callback receives as argument the modal window
-		                o.onClose($modal[0]);
-	                }
+                    $modal.css('display', 'none');
+                    $overlay.css('display', 'none');
+                    if (o.onClose && typeof o.onClose === 'function') {
+                        // onClose callback receives as argument the modal window
+                        o.onClose($modal[0]);
+                    }
                 });
 
                 // Close on overlay click
@@ -120,7 +120,9 @@
                 });
 
                 // Automatically open modal if option set
-	            if (o.autoOpen) $modal.trigger('openModal');
+                if (o.autoOpen) {
+                    $modal.trigger('openModal');
+                }
 
             });
 
