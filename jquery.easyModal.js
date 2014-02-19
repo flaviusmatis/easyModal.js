@@ -76,6 +76,7 @@
                 $modal.bind('openModal', function () {
                     var overlayZ = o.updateZIndexOnOpen ? o.zIndex() : parseInt($overlay.css('z-index'), 10),
                         modalZ = overlayZ + 1;
+
                     if(o.transitionIn !== '' && o.transitionOut !== ''){
                         $modal.removeClass(o.transitionOut).addClass(o.transitionIn);
                     };
