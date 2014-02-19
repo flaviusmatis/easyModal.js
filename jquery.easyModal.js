@@ -22,6 +22,8 @@
                 overlayParent: 'body',
                 closeOnEscape: true,
                 closeButtonClass: '.close',
+                transitionIn: '',
+                transitionOut: '',
                 onOpen: false,
                 onClose: false,
                 zIndex: function () {
@@ -74,7 +76,9 @@
                 $modal.bind('openModal', function () {
                     var overlayZ = o.updateZIndexOnOpen ? o.zIndex() : parseInt($overlay.css('z-index'), 10),
                         modalZ = overlayZ + 1;
-
+                    if(o.transitionIn !== '' && o.transitionOut !== ''){
+                        $modal.removeClass(o.transitionOut).addClass(o.transitionIn);
+                    };
                     $modal.css({
                         'display' : 'block',
                         'margin-left' : -($modal.outerWidth() / 2) + 'px',
@@ -91,8 +95,17 @@
                 });
 
                 $modal.bind('closeModal', function () {
-                    $modal.css('display', 'none');
-                    $overlay.css('display', 'none');
+                    if(o.transitionIn !== '' && o.transitionOut !== ''){
+                        $modal.removeClass(o.transitionIn).addClass(o.transitionOut);
+                        $modal.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                            $modal.css('display', 'none');
+                            $overlay.css('display', 'none');
+                        });
+                    }
+                    else {
+                        $modal.css('display', 'none');
+                        $overlay.css('display', 'none');
+                    }
                     if (o.onClose && typeof o.onClose === 'function') {
                         // onClose callback receives as argument the modal window
                         o.onClose($modal[0]);
