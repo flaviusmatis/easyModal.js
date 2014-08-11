@@ -79,7 +79,7 @@
 
                     if(o.transitionIn !== '' && o.transitionOut !== ''){
                         $modal.removeClass(o.transitionOut).addClass(o.transitionIn);
-                    };
+                    }
                     $modal.css({
                         'display' : 'block',
                         'margin-left' : -($modal.outerWidth() / 2) + 'px',
