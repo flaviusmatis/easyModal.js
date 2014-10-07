@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- For demo purpose -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+	<style type="text/css">
+	body {
+		max-width: 980px;
+		margin: 5% auto;
+	}
+	.easy-modal,
+	.easy-modal-animated {
+		width: 600px;
+		padding: 2em;
+		box-shadow: 1px 1px 3px rgba(0,0,0,0.35);
+		background-color: white;
+	}
+	</style>
+	<!-- /For demo purpose -->
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
+</head>
+<body>
+
+	<h1>easyModal.js</h1>
+
+	<button class="easy-modal-open" href="#modal1">Open modal #1</button> <button class="easy-modal-open" href="#modal2">Open modal #2</button> <button class="easy-modal-open" href="#modal3">Open modal #3 (with transitions)</button>
+
+	<p>Animated modals are designed to work with <a href="http://daneden.github.io/animate.css/">animate.css</a> but they'll also work with custom CSS animations/transitions.</p>
+
+	<div class="easy-modal" id="modal1">
+		<div class="easy-modal-inner">
+			<h1>HTML Ipsum Presents</h1>
+
+			<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+
+			<h2>Header Level 2</h2>
+
+			<ol>
+				<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				<li>Aliquam tincidunt mauris eu risus.</li>
+			</ol>
+
+			<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+			<h3>Header Level 3</h3>
+
+			<ul>
+				<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				<li>Aliquam tincidunt mauris eu risus.</li>
+			</ul>
+			
+			<button class="easy-modal-close" title="Close">&times;</button>
+		</div>
+	</div>
+
+	<div class="easy-modal" id="modal2">
+		<h3>This modal has no inner div</h3>
+		<img src="http://placehold.it/600x400" alt="">
+	</div>
+
+	<div class="easy-modal-animated" id="modal3">
+		<h3>This modal has no inner div</h3>
+		<img src="http://placehold.it/600x400" alt=""><br>
+		<button class="animated-close" title="Close">Close me if you dare!</button>
+	</div>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../jquery.easyModal.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('.easy-modal').easyModal({
+			top: 200,
+			overlay: 0.2
+		});
+
+		$('.easy-modal-open').click(function(e) {
+			var target = $(this).attr('href');
+			$(target).trigger('openModal');
+			e.preventDefault();
+		});
+
+		$('.easy-modal-close').click(function(e) {
+			$('.easy-modal').trigger('closeModal');
+		});
+
+		$('.easy-modal-animated').easyModal({
+			top: 200,
+			overlay: 0.2,
+			transitionIn: 'animated bounceInLeft',
+			transitionOut: 'animated bounceOutRight',
+			closeButtonClass: '.animated-close'
+		});
+	});
+	</script>
+
+</body>
+</html>
