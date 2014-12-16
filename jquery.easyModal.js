@@ -15,6 +15,7 @@
 
             var defaults = {
                 top: 'auto',
+                left: 'auto',
                 autoOpen: false,
                 overlayOpacity: 0.5,
                 overlayColor: '#000',
@@ -69,7 +70,7 @@
                     // When updateZIndexOnOpen is set to true, we avoid computing the z-index on initialization,
                     // because the value would be replaced when opening the modal.
                     'z-index': (o.updateZIndexOnOpen ? 0 : o.zIndex() + 1),
-                    'left' : 50 + '%',
+                    'left' : parseInt(o.left, 10) > -1 ? o.left + 'px' : 50 + '%',
                     'top' : parseInt(o.top, 10) > -1 ? o.top + 'px' : 50 + '%'
                 });
 
@@ -82,7 +83,7 @@
                     }
                     $modal.css({
                         'display' : 'block',
-                        'margin-left' : -($modal.outerWidth() / 2) + 'px',
+                        'margin-left' : (parseInt(o.left, 10) > -1 ? 0 : -($modal.outerWidth() / 2)) + 'px',
                         'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px',
                         'z-index': modalZ
                     });
