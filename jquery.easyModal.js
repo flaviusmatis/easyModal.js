@@ -3,6 +3,10 @@
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
+*
+* Copyright 2012, Flavius Matis
+* Released under the MIT license.
+* http://flaviusmatis.github.com/license.html
 */
 
 /*jslint browser: true*/
