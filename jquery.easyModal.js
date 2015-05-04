@@ -1,5 +1,5 @@
 /**
-* easyModal.js v1.3.1
+* easyModal.js v1.3.2
 * A minimal jQuery modal that works with your CSS.
 * Author: Flavius Matis - http://flaviusmatis.github.com/
 * URL: https://github.com/flaviusmatis/easyModal.js
@@ -11,6 +11,34 @@
 
 /*jslint browser: true*/
 /*global jQuery*/
+
+(function($,sr){
+
+  // debouncing function from John Hann
+  // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
+
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null;
+          };
+
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+
+          timeout = setTimeout(delayed, threshold || 100);
+      };
+  }
+  // smartModalResize 
+  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+
+})(jQuery,'smartModalResize');
 
 (function ($) {
     "use strict";
@@ -42,7 +70,8 @@
                         return parseInt(this, 10);
                     })))));
                 },
-                updateZIndexOnOpen: true
+                updateZIndexOnOpen: true,
+                hasVariableWidth: false
             };
 
             options = $.extend(defaults, options);
@@ -129,6 +158,15 @@
                     // ESCAPE key pressed
                     if (o.closeOnEscape && e.keyCode === 27) {
                         $modal.trigger('closeModal');
+                    }
+                });
+
+                $(window).smartModalResize(function(){
+                    if (o.hasVariableWidth) {
+                        $modal.css({
+                            'margin-left' : (parseInt(o.left, 10) > -1 ? 0 : -($modal.outerWidth() / 2)) + 'px',
+                            'margin-top' : (parseInt(o.top, 10) > -1 ? 0 : -($modal.outerHeight() / 2)) + 'px'
+                        });
                     }
                 });
 
