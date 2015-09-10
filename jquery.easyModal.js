@@ -10,6 +10,9 @@
 
 (function ($) {
     "use strict";
+
+    var maxZIndexInPage = null;
+
     var methods = {
         init: function (options) {
 
@@ -25,16 +28,23 @@
                 onOpen: false,
                 onClose: false,
                 zIndex: function () {
-                    return (function (value) {
-                        return value === -Infinity ? 0 : value + 1;
-                    }(Math.max.apply(Math, $.makeArray($('*').map(function () {
-                        return $(this).css('z-index');
-                    }).filter(function () {
-                        return $.isNumeric(this);
-                    }).map(function () {
-                        return parseInt(this, 10);
-                    })))));
-                },
+                   return (function () {
+
+                       if( maxZIndexInPage ) {
+                           return ++maxZIndexInPage;
+                       }
+
+                       var value = Math.max.apply(null,
+                           $.map($('body *'), function(e,n) {
+                               if ($(e).css('position') != 'static')
+                                   return parseInt($(e).css('z-index')) || 1;
+                           }));
+
+                       maxZIndexInPage = value;
+
+                       return value;
+                   }());
+               },
                 updateZIndexOnOpen: true
             };
 
