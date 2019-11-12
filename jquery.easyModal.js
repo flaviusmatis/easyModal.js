@@ -133,8 +133,9 @@
                     if(o.transitionIn !== '' && o.transitionOut !== ''){
                         $modal.removeClass(o.transitionIn).addClass(o.transitionOut);
                         $modal.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                            $modal.css('display', 'none');
-                            $overlay.css('display', 'none');
+                            let display = $modal.hasClass(o.transitionIn) ? 'block' : 'none';
+                            $modal.css('display', display);
+                            $overlay.css('display', display);
                         });
                     }
                     else {
